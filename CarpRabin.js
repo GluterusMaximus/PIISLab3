@@ -74,7 +74,6 @@ export default class CarpRabin {
     ) {
       currSlice = text.slice(i, i + pattern.length)
       textHash ??= this.#hash(currSlice)
-      // console.dir({ currSlice, patternHash, textHash })
 
       if (patternHash === textHash) {
         if (currSlice === pattern) matches.push(i)
