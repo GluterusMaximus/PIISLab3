@@ -2,6 +2,8 @@ import { readFileSync } from 'fs'
 import CarpRabin from './CarpRabin.js'
 import Dijkstra from './Dijkstra.js'
 import Graph from './Graph.js'
+import Prim from './Prim.js'
+import UnorientedGraph from './UnorientedGraph.js'
 
 const VARIANT = 24
 const SYMBOL_COUNT = 256
@@ -64,3 +66,45 @@ const shortestPaths = dijkstra.shortestPaths(sourceIndex)
 console.log('Dijkstra algorithm')
 displayPaths(shortestPaths, dijkstraGraph.get(sourceIndex))
 console.log('-'.repeat(50))
+
+const primEdges = [
+  { from: 2, to: 3, weight: 3 },
+  { from: 2, to: 4, weight: 1 },
+  { from: 3, to: 1, weight: 3 },
+  { from: 3, to: 6, weight: 2 },
+  { from: 3, to: 5, weight: 2 },
+  { from: 4, to: 2, weight: 3 },
+  { from: 4, to: 7, weight: 3 },
+  { from: 5, to: 6, weight: 5 },
+  { from: 5, to: 7, weight: 2 },
+  { from: 5, to: 8, weight: 5 },
+  { from: 6, to: 2, weight: 1 },
+  { from: 6, to: 3, weight: 3 },
+  { from: 6, to: 5, weight: 2 },
+  { from: 6, to: 7, weight: 1 },
+  { from: 6, to: 8, weight: 3 },
+  { from: 7, to: 6, weight: 1 },
+  { from: 7, to: 8, weight: 2 },
+  { from: 8, to: 3, weight: 2 },
+  { from: 8, to: 4, weight: 2 },
+  { from: 8, to: 7, weight: 4 },
+]
+
+const sumMst = (mst) =>
+  [...mst].reduce((sum, edge) => sum + edge.weight, 0)
+
+const displayEdges = (edges) => {
+  for (const { to, from, weight } of edges) {
+    console.log(
+      `Edge from ${from.index} to ${to.index} with weight ${weight}`
+    )
+  }
+}
+
+const primGraph = new UnorientedGraph(primEdges)
+const prim = new Prim(primGraph)
+const mst = prim.mst()
+
+console.log('Prim algorithm')
+displayEdges(mst)
+console.log(`Total weight of mst: ${sumMst(mst)}`)
